@@ -21,7 +21,7 @@
         <Deterministic>true</Deterministic>
         <PlatformTarget>x64</PlatformTarget>
 
-        <SignAssembly Condition="'$(AssemblyOriginatorKeyFile)' != ''">true</SignAssembly>
+        <SignAssembly Condition="'$(SignKeyFile)' != ''">true</SignAssembly>
     </PropertyGroup>
 
     <ItemGroup>
@@ -38,5 +38,6 @@
 
         <EmbeddedResource Include="Resources/OwOTitle.png" CopyToOutputDirectory="Never" LogicalName="OwOTitle.png" />
         <EmbeddedResource Include="Resources/OwODebugTitle.png" CopyToOutputDirectory="Never" LogicalName="OwODebugTitle.png" />
+        <EmbeddedResource Include="Resources/OwOGrimm.png" CopyToOutputDirectory="Never" LogicalName="OwOGrimm.png" />
     </ItemGroup>
 </Project>

@@ -1,9 +1,10 @@
 using System.Runtime.CompilerServices;
 using System.Text;
+using UnityEngine;
 
 namespace HowwowKnyight;
 
-public static class Extensions {
+public static class Utils {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static StringBuilder ReplaceRange(this StringBuilder sb, in int startIndex, in int maxLength, in string replacement) {
         var i = 0;
@@ -32,10 +33,6 @@ public static class Extensions {
         return false;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsSeperator(char value) =>
-        value is '-' or '.' or ' ' or ':';
-
     public static int FirstIndexOf(this string val, Func<char, bool> filter) {
         var len = val.Length;
         for (int i = 0; i < len; i++) {
@@ -50,25 +47,24 @@ public static class Extensions {
         for (var i = 0; i < len; i++) {
             // surely this can be done better
             if (val[i]
-                is 'a'
-                or 'e'
-                or 'i'
-                or 'o'
-                or 'u'
-                or 'y'
-                or 'n'
-                or 'g'
-                or 'A'
-                or 'E'
-                or 'I'
-                or 'O'
-                or 'U'
-                or 'Y'
-                or 'N'
-                or 'G') {
+                is 'a' or 'e' or 'i' or 'o' or 'u' or 'y' or 'n' or 'g'
+                or 'A' or 'E' or 'I' or 'O' or 'U' or 'Y' or 'N' or 'G') {
                 return i;
             }
         }
         return -1;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsSeperator(char value) =>
+        value is '-' or '.' or ' ' or ':';
+
+    public static Texture2D LoadTextureFromResources(string name) {
+        using var stream = typeof(Utils).Assembly.GetManifestResourceStream(name);
+        var buf = new byte[stream.Length];
+        _ = stream.Read(buf, 0, buf.Length);
+        var tex = new Texture2D(1, 1);
+        tex.LoadImage(buf);
+        return tex;
     }
 }

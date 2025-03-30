@@ -79,7 +79,7 @@ public sealed class LanguageGetManager(GlobalSettings settings, ILogger logger):
             }
 
             if (owig[owig.Length - 1] == '?' || (!faceAdded && URandom.value < Settings.FaceChance)) {
-                while (Extensions.IsSeperator(sb[sb.Length - 1])) {
+                while (Utils.IsSeperator(sb[sb.Length - 1])) {
                     sb.Length -= 1;
                 }
                 var faceIndex = URandom.Range(0, Settings.Faces.Count - 1);

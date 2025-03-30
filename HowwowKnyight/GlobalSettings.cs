@@ -3,10 +3,29 @@ using Newtonsoft.Json;
 
 namespace HowwowKnyight;
 
+[JsonObject(
+    MemberSerialization.OptIn,
+    ItemNullValueHandling = NullValueHandling.Ignore,
+    MissingMemberHandling = MissingMemberHandling.Ignore)]
 public sealed class GlobalSettings {
+    [JsonProperty]
     public float StutterChance { get; set; } = 0.15f;
+    [JsonProperty]
     public float FaceChance { get; set; } = 0.2f;
 
+    [JsonProperty(nameof(GrimmEnabled))]
+    private bool _grimmEnabled = true;
+    public bool GrimmEnabled { get => _grimmEnabled; internal set => _grimmEnabled = value; }
+
+    [JsonProperty(nameof(OwOTextEnabled))]
+    private bool _owoTextEnabled = true;
+    public bool OwOTextEnabled { get => _owoTextEnabled; internal set => _owoTextEnabled = value; }
+
+    [JsonProperty(nameof(MainMenuEnabled))]
+    private bool _mainMenuEnabled = true;
+    public bool MainMenuEnabled { get => _mainMenuEnabled; internal set => _mainMenuEnabled = value; }
+
+    [JsonProperty]
     public readonly List<string> Faces = [
         " uwu",
         " owo",
@@ -22,6 +41,7 @@ public sealed class GlobalSettings {
         "~", "~", "~", "~", "~"
     ];
 
+    [JsonProperty]
     public readonly List<ReplacementRule> Replacements = [
         new("R", "W"),
         new("L", "W"),
@@ -56,7 +76,10 @@ public class ReplacementRule(string match, string replacement, bool regex = fals
         ? _matchRegex ??= new(Matcher)
         : throw new InvalidOperationException("This is a non-regex match");
 
+    [JsonProperty]
     public readonly string Matcher = match;
+    [JsonProperty]
     public readonly bool UseRegex = regex;
+    [JsonProperty]
     public readonly string Replacement = replacement;
 }

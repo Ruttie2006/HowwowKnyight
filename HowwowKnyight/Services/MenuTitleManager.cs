@@ -15,11 +15,7 @@ public sealed class MenuTitleManager: IDisposable {
     public Texture2D? DebugModTitleTexture { get; private set; } = null;
 
     public MenuTitleManager() {
-        using var owoTitleStream = typeof(HowwowKnyightMod).Assembly.GetManifestResourceStream(OwOTitleResourceName);
-        var buf = new byte[owoTitleStream.Length];
-        _ = owoTitleStream.Read(buf, 0, buf.Length);
-        TitleTexture = new Texture2D(1, 1);
-        TitleTexture.LoadImage(buf);
+        TitleTexture = Utils.LoadTextureFromResources(OwOTitleResourceName);
     }
 
     private static Sprite CreateSprite(Sprite orig, Texture2D tex) =>
@@ -33,12 +29,7 @@ public sealed class MenuTitleManager: IDisposable {
         );
 
     private Texture2D LoadDebugTexture() {
-        using var owoTitleStream = typeof(HowwowKnyightMod).Assembly.GetManifestResourceStream(OwODebugTitleResourceName);
-        var buf = new byte[owoTitleStream.Length];
-        _ = owoTitleStream.Read(buf, 0, buf.Length);
-        DebugModTitleTexture = new Texture2D(1, 1);
-        DebugModTitleTexture.LoadImage(buf);
-        return DebugModTitleTexture;
+        return DebugModTitleTexture = Utils.LoadTextureFromResources(OwODebugTitleResourceName);
     }
 
     internal void SetHooks() {
