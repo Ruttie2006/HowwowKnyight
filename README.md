@@ -6,8 +6,8 @@
   [![on Scarab](https://img.shields.io/badge/on-Scarab-blue.svg?style=flat-square)](https://themulhima.github.io/Lumafly/)
   [![for version](https://img.shields.io/badge/for_hk-v1.5.78-blue.svg?style=flat-square)](https://themulhima.github.io/Lumafly/)
   [![get support](https://img.shields.io/badge/get_support-on_discord-darkgreen.svg?style=flat-square)](https://discord.gg/y9tX7z9HzR)
-  [![Downloads](https://img.shields.io/github/downloads/Ruttie2006/HowwowKnyight-1.5/latest/total?label=downloads&color=darkgreen&style=flat-square)](https://github.com/Ruttie2006/HowwowKnyight/releases)
-  [![Latest Release](https://img.shields.io/github/v/release/Ruttie2006/HowwowKnyight-1.5?style=flat-square)](https://github.com/Ruttie2006/HowwowKnyight/releases/latest)
+  [![Downloads](https://img.shields.io/github/downloads/Ruttie2006/HowwowKnyight/latest/total?label=downloads&color=darkgreen&style=flat-square)](https://github.com/Ruttie2006/HowwowKnyight/releases)
+  [![Latest Release](https://img.shields.io/github/v/release/Ruttie2006/HowwowKnyight?style=flat-square)](https://github.com/Ruttie2006/HowwowKnyight/releases/latest)
 
   <img src="/HowwowKnyight/Resources/OwOTitle.png" alt="Logo" height="250">
 </div>
