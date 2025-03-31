@@ -1,7 +1,7 @@
 <div align="center">
   <br/>
   
-  [![license](https://img.shields.io/github/license/Ruttie2006/HowwowKnyight.svg?style=flat-square)](LICENSE)
+  [![license](https://img.shields.io/github/license/Ruttie2006/HowwowKnyight?style=flat-square)](LICENSE)
   [![on Lumafly](https://img.shields.io/badge/on-Lumafly-blue.svg?style=flat-square)](https://github.com/fifty-six/scarab)
   [![on Scarab](https://img.shields.io/badge/on-Scarab-blue.svg?style=flat-square)](https://themulhima.github.io/Lumafly/)
   [![for version](https://img.shields.io/badge/for_hk-v1.5.78-blue.svg?style=flat-square)](https://themulhima.github.io/Lumafly/)
