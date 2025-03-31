@@ -19,6 +19,8 @@ public sealed class HowwowKnyight():
     }
 
     public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects) {
+        Settings ??= new();
+
         TitleManager ??= new();
         if (Settings.MainMenuEnabled)
             TitleManager.SetHooks();
