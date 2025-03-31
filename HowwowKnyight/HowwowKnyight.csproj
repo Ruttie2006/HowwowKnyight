@@ -4,7 +4,7 @@
     <PropertyGroup>
         <AssemblyName>HowwowKnyight</AssemblyName>
         <RootNamespace>HowwowKnyight</RootNamespace>
-        <AssemblyVersion>0.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <Copyright>Copyright © Ruttie 2025</Copyright>
 
         <TargetFramework>net472</TargetFramework>
