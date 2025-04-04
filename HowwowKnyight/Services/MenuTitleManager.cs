@@ -1,3 +1,4 @@
+using Modding;
 using Modding.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,6 +14,7 @@ public sealed class MenuTitleManager: IDisposable {
 
     public readonly Texture2D TitleTexture;
     public Texture2D? DebugModTitleTexture { get; private set; } = null;
+    private int? TitleIndex = null;
 
     public MenuTitleManager() {
         TitleTexture = Utils.LoadTextureFromResources(OwOTitleResourceName);
@@ -35,38 +37,52 @@ public sealed class MenuTitleManager: IDisposable {
     internal void SetHooks() {
         USceneMgr.activeSceneChanged += OnSceneChange;
         On.MenuStyles.UpdateTitle += OnUpdateTitle;
+        ModHooks.FinishedLoadingModsHook += OnModLoadFinished;
     }
 
     private void OnUpdateTitle(On.MenuStyles.orig_UpdateTitle orig, MenuStyles self) {
-        if (self.CurrentStyle > 0 && self.title != null) {
+        if (self.title != null && self.styles[self.CurrentStyle].titleIndex > 0) {
             orig(self);
         }
     }
 
     private void OnSceneChange(Scene oldScene, Scene newScene) {
-        if (newScene.buildIndex != MainMenuBuildIndex)
+        TitleIndex = null;
+        RegisterStyles(newScene);
+    }
+
+    private void OnModLoadFinished() {
+        RegisterStyles(USceneMgr.GetActiveScene());
+    }
+
+    private void RegisterStyles(Scene scene) {
+        if (scene.buildIndex != MainMenuBuildIndex)
             return;
 
-        var titleGo = newScene.FindGameObject(TitleObjectName);
+        var titleGo = scene.FindGameObject(TitleObjectName);
         var titleStyle = titleGo.GetComponent<MenuStyleTitle>();
-        titleStyle.TitleSprites = [
-            ..titleStyle.TitleSprites,
-            new() {
-                PlatformWhitelist = [.. Enum.GetValues(typeof(RuntimePlatform)).OfType<RuntimePlatform>()],
-                Default = CreateSprite(
-                    titleStyle.DefaultTitleSprite.Default,
-                    // Debug easter egg integration is currently largely untested
-                    newScene.FindGameObject("DebugEasterEgg") != null
-                        ? LoadDebugTexture()
-                        : TitleTexture)
-            }
-        ];
-        titleStyle.SetTitle(titleStyle.TitleSprites.Length - 1);
+        if (TitleIndex == null) {
+            titleStyle.TitleSprites = [
+                ..titleStyle.TitleSprites,
+                new() {
+                    PlatformWhitelist = [.. Enum.GetValues(typeof(RuntimePlatform)).OfType<RuntimePlatform>()],
+                    Default = CreateSprite(
+                        titleStyle.DefaultTitleSprite.Default,
+                        // Debug easter egg integration is currently largely untested
+                        scene.FindGameObject("DebugEasterEgg") != null
+                            ? LoadDebugTexture()
+                            : TitleTexture)
+                }
+            ];
+            TitleIndex = titleStyle.TitleSprites.Length - 1;
+        }
+        titleStyle.SetTitle(TitleIndex.GetValueOrDefault());
     }
 
     public void Dispose() {
         USceneMgr.activeSceneChanged -= OnSceneChange;
         On.MenuStyles.UpdateTitle -= OnUpdateTitle;
+        ModHooks.FinishedLoadingModsHook -= OnModLoadFinished;
 
         USceneMgr.GetActiveScene()
             .FindGameObject(TitleObjectName)?
