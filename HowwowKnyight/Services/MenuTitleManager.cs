@@ -1,3 +1,4 @@
+using Modding;
 using Modding.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -35,19 +36,28 @@ public sealed class MenuTitleManager: IDisposable {
     internal void SetHooks() {
         USceneMgr.activeSceneChanged += OnSceneChange;
         On.MenuStyles.UpdateTitle += OnUpdateTitle;
+        ModHooks.FinishedLoadingModsHook += OnModLoadFinished;
     }
 
     private void OnUpdateTitle(On.MenuStyles.orig_UpdateTitle orig, MenuStyles self) {
-        if (self.CurrentStyle > 0 && self.title != null) {
+        if (self.title != null && self.styles[self.CurrentStyle].titleIndex > 0) {
             orig(self);
         }
     }
 
     private void OnSceneChange(Scene oldScene, Scene newScene) {
-        if (newScene.buildIndex != MainMenuBuildIndex)
+        RegisterStyles(newScene);
+    }
+
+    private void OnModLoadFinished() {
+        RegisterStyles(USceneMgr.GetActiveScene());
+    }
+
+    private void RegisterStyles(Scene scene) {
+        if (scene.buildIndex != MainMenuBuildIndex)
             return;
 
-        var titleGo = newScene.FindGameObject(TitleObjectName);
+        var titleGo = scene.FindGameObject(TitleObjectName);
         var titleStyle = titleGo.GetComponent<MenuStyleTitle>();
         titleStyle.TitleSprites = [
             ..titleStyle.TitleSprites,
@@ -56,7 +66,7 @@ public sealed class MenuTitleManager: IDisposable {
                 Default = CreateSprite(
                     titleStyle.DefaultTitleSprite.Default,
                     // Debug easter egg integration is currently largely untested
-                    newScene.FindGameObject("DebugEasterEgg") != null
+                    scene.FindGameObject("DebugEasterEgg") != null
                         ? LoadDebugTexture()
                         : TitleTexture)
             }
