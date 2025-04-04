@@ -77,6 +77,7 @@ public sealed class MenuTitleManager: IDisposable {
     public void Dispose() {
         USceneMgr.activeSceneChanged -= OnSceneChange;
         On.MenuStyles.UpdateTitle -= OnUpdateTitle;
+        ModHooks.FinishedLoadingModsHook -= OnModLoadFinished;
 
         USceneMgr.GetActiveScene()
             .FindGameObject(TitleObjectName)?
