@@ -85,7 +85,7 @@ public sealed class HowwowKnyight():
         },
         new() {
             Name = "Main Menu",
-            Description = "Whether or not to replace the main menu title text\nThis setting will not take affect if enabled while on the main menu",
+            Description = "Whether or not to replace the main menu title text",
             Values = ["Disabled", "Enabled"],
             Loader = () => {
                 return Settings.MainMenuEnabled ? 1 : 0;
