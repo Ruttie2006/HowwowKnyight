@@ -14,6 +14,7 @@ public sealed class MenuTitleManager: IDisposable {
 
     public readonly Texture2D TitleTexture;
     public Texture2D? DebugModTitleTexture { get; private set; } = null;
+    private int? TitleIndex = null;
 
     public MenuTitleManager() {
         TitleTexture = Utils.LoadTextureFromResources(OwOTitleResourceName);
@@ -46,6 +47,7 @@ public sealed class MenuTitleManager: IDisposable {
     }
 
     private void OnSceneChange(Scene oldScene, Scene newScene) {
+        TitleIndex = null;
         RegisterStyles(newScene);
     }
 
@@ -59,19 +61,22 @@ public sealed class MenuTitleManager: IDisposable {
 
         var titleGo = scene.FindGameObject(TitleObjectName);
         var titleStyle = titleGo.GetComponent<MenuStyleTitle>();
-        titleStyle.TitleSprites = [
-            ..titleStyle.TitleSprites,
-            new() {
-                PlatformWhitelist = [.. Enum.GetValues(typeof(RuntimePlatform)).OfType<RuntimePlatform>()],
-                Default = CreateSprite(
-                    titleStyle.DefaultTitleSprite.Default,
-                    // Debug easter egg integration is currently largely untested
-                    scene.FindGameObject("DebugEasterEgg") != null
-                        ? LoadDebugTexture()
-                        : TitleTexture)
-            }
-        ];
-        titleStyle.SetTitle(titleStyle.TitleSprites.Length - 1);
+        if (TitleIndex == null) {
+            titleStyle.TitleSprites = [
+                ..titleStyle.TitleSprites,
+                new() {
+                    PlatformWhitelist = [.. Enum.GetValues(typeof(RuntimePlatform)).OfType<RuntimePlatform>()],
+                    Default = CreateSprite(
+                        titleStyle.DefaultTitleSprite.Default,
+                        // Debug easter egg integration is currently largely untested
+                        scene.FindGameObject("DebugEasterEgg") != null
+                            ? LoadDebugTexture()
+                            : TitleTexture)
+                }
+            ];
+            TitleIndex = titleStyle.TitleSprites.Length - 1;
+        }
+        titleStyle.SetTitle(TitleIndex.GetValueOrDefault());
     }
 
     public void Dispose() {
